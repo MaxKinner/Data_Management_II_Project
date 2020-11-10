@@ -13,8 +13,6 @@ class PreProcessing:
         pass
 
     def preprocess(self, data, test_size, train_size, random_state, target_variable):
-        print("Pre-Processing started ################")
-
         # Drop not used columns
         data.drop(columns=["Stats_ID", "Form_ID", "Player_ID", "Club_ID"], inplace=True)
         
@@ -27,5 +25,4 @@ class PreProcessing:
         # Divide into test and train data
         X_train, x_test, Y_train, y_test = train_test_split(predictors, dependents, test_size=test_size, train_size=train_size, random_state=random_state)
 
-        print("Pre-Processing finished ################")
         return X_train, x_test, Y_train, y_test

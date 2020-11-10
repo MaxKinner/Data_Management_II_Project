@@ -1,4 +1,4 @@
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 
 class Evaluation:
@@ -6,7 +6,6 @@ class Evaluation:
         pass
 
     def evaluate_models(self, gbr_model, rfr_model, dtr_model, x_test, y_test, save_plots):
-        print("Evaluate models started ################")
         y_predicted_gbr = gbr_model.predict(x_test)
         y_predicted_rfr = rfr_model.predict(x_test)
         y_predicted_dtr = dtr_model.predict(x_test)
@@ -31,13 +30,10 @@ class Evaluation:
             ax.set_ylabel('Actual')
             plt.show()
 
-            mae = mean_absolute_error(y_test, y_predicted) # Robust to outliers
-            mse = mean_squared_error(y_test, y_predicted) # Not robust to outliers
             r2 = r2_score(y_test, y_predicted) # Not robust to outliers
 
             print("--------------------------------------")
-            print('MAE is {}'.format(mae))
-            print('MSE is {}'.format(mse))
+
             print('R2 score is {}'.format(r2))
 
             if save_plots == True:
@@ -49,5 +45,3 @@ class Evaluation:
                     plt.savefig("Decision_Tree.png", bbox_inches='tight', dpi=199)
 
             predict_counter += 1
-
-        print("Evaluate models finished ################")

@@ -39,6 +39,4 @@ class Extract:
         query = pd.read_sql_query("SELECT * FROM Fifa19.dbo." + table, connection)
 
         df = pd.DataFrame(query)
-        
-        print("Query data finished ################")
         return df
