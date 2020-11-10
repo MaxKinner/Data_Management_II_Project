@@ -5,6 +5,10 @@
 
 # Import modules
 import pyodbc
+import sys
+import pandas as pd
+from tqdm import tqdm
+
 
 # Class
 class Load:
@@ -12,7 +16,9 @@ class Load:
     def __init__(self):
         pass
 
-    def insert_club_data(self, data, server, database, table_to):   
+    def insert_club_data(self, data, server, database, table_to):
+        data = data.astype({"Club_ID": str, "Club": str, "Club_Logo": str, "Position": str, "Jersey_Number": int, "Joined": str, "Loaned_From": str, "Contract_Valid_Until": str, "Release_Clause": int})
+
         connection = pyodbc.connect(
         "Driver={SQL Server};"
         "Server=" + server + ";"
@@ -21,26 +27,28 @@ class Load:
 
         cursor = connection.cursor()
 
-        for row in data.iterrows():
-            cursor.execute(  # Hier muss wohl die einzige Anpassung durchgeführt werden? Für jede Spalte ein eigenes "row[]" mit Spaltenname und gut is?
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+            cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Club_ID],[Club],[Club_Logo],[Position],[Jersey_Number],[Joined],[Loaned_From],[Contract_Valid_Until],[Release_Clause]) VALUES (?,?,?,?,?,?,?,?,?)",
-            row["Club_ID"],
-            row["Club"],
-            row["Club_Logo"],
-            row["Position"],
-            row["Jersey_Number"],
-            row["Joined"],
-            row["Loaned_From"],
-            row["Contract_Valid_Until"],
-            row["Release_Clause"]
+            row['Club_ID'],
+            row['Club'],
+            row['Club_Logo'],
+            row['Position'],
+            row['Jersey_Number'],
+            row['Joined'],
+            row['Loaned_From'],
+            row['Contract_Valid_Until'],
+            row['Release_Clause']
             )
+            connection.commit()
 
-        connection.commit()
         cursor.close()
         connection.close()
 
-    def insert_player_data(self, data, server, database, table_to):   
+    def insert_player_data(self, data, server, database, table_to):
+        data = data.astype({"Player_ID": str, "Age": int, "Overall": int, "Potential": int, "Special": int, "International_Reputation": int, "Skill_Moves": int, "Height": int, "Weight": int, "Name": str, "Photo": str, "Nationality": str, "Flag": str, "Value": int, "Wage": int, "Preferred_Foot": str, "Weak_Foot": int, "Work_Rate": str, "Body_Type": str, "Real_Face": str})
+
         connection = pyodbc.connect(
         "Driver={SQL Server};"
         "Server=" + server + ";"
@@ -49,10 +57,10 @@ class Load:
 
         cursor = connection.cursor()
 
-        for row in data.iterrows():
-            cursor.execute(  # Hier muss wohl die einzige Anpassung durchgeführt werden? Für jede Spalte ein eigenes "row[]" mit Spaltenname und gut is?
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+            cursor.execute(
             "INSERT INTO dbo." + table_to +
-            "([Player_ID],[Age],[Overall],[Potential],[Special],[International_Reputation],[Skill_Moves],[Height],[Weight],[Name],[Photo],[Nationality],[Flag],[Value],[Wage],[Preferred_Foot],[Weak_Foot],[Work_Rate],[Body_Type],[Real_FaceID],[Age],[Overall],[Potential],[Special],[International_Reputation],[Skill_Moves],[Height],[Weight],[Name],[Photo],[Nationality],[Flag],[Value],[Wage],[Preferred_Foot],[Weak_Foot],[Work_Rate],[Body_Type],[Real_Face]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            "([Player_ID],[Age],[Overall],[Potential],[Special],[International_Reputation],[Skill_Moves],[Height],[Weight],[Name],[Photo],[Nationality],[Flag],[Value],[Wage],[Preferred_Foot],[Weak_Foot],[Work_Rate],[Body_Type],[Real_Face]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             row["Player_ID"],
             row["Age"],
             row["Overall"],
@@ -72,14 +80,16 @@ class Load:
             row["Weak_Foot"],
             row["Work_Rate"],
             row["Body_Type"],
-            row["Real_FaceID"]
+            row["Real_Face"]
             )
+            connection.commit()
 
-        connection.commit()
         cursor.close()
         connection.close()
 
-    def insert_stats_data(self, data, server, database, table_to):   
+    def insert_stats_data(self, data, server, database, table_to):
+        data = data.astype({"Stats_ID": str, "Crossing": int, "Finishing": int, "HeadingAccuracy": int, "ShortPassing": int, "Volleys": int, "Dribbling": int, "Curve": int, "FKAccuracy": int, "LongPassing": int, "BallControl": int, "Acceleration": int, "SprintSpeed": int, "Agility": int, "Reactions": int, "Balance": int, "ShotPower": int, "Jumping": int, "Stamina": int, "Strength": int, "LongShots": int, "Aggression": int, "Interceptions": int, "Positioning": int, "Vision": int, "Penalties": int, "Composure": int, "Marking": int, "StandingTackle": int, "SlidingTackle": int, "GKDiving": int, "GKHandling": int, "GKKicking": int, "GKPositioning": int, "GKReflexes": int})
+
         connection = pyodbc.connect(
         "Driver={SQL Server};"
         "Server=" + server + ";"
@@ -88,8 +98,8 @@ class Load:
 
         cursor = connection.cursor()
 
-        for row in data.iterrows():
-            cursor.execute(  # Hier muss wohl die einzige Anpassung durchgeführt werden? Für jede Spalte ein eigenes "row[]" mit Spaltenname und gut is?
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+            cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Stats_ID],[Crossing],[Finishing],[HeadingAccuracy],[ShortPassing],[Volleys],[Dribbling],[Curve],[FKAccuracy],[LongPassing],[BallControl],[Acceleration],[SprintSpeed],[Agility],[Reactions],[Balance],[ShotPower],[Jumping],[Stamina],[Strength],[LongShots],[Aggression],[Interceptions],[Positioning],[Vision],[Penalties],[Composure],[Marking],[StandingTackle],[SlidingTackle],[GKDiving],[GKHandling],[GKKicking],[GKPositioning],[GKReflexes]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             row["Stats_ID"],
@@ -128,12 +138,14 @@ class Load:
             row["GKPositioning"],
             row["GKReflexes"]
             )
+            connection.commit()
 
-        connection.commit()
         cursor.close()
         connection.close()
 
-    def insert_form_data(self, data, server, database, table_to):   
+    def insert_form_data(self, data, server, database, table_to):
+        data = data.astype({"Form_ID": str, "LS": int, "ST": int, "RS": int, "LW": int, "LF": int, "CF": int, "RF": int, "RW": int, "LAM": int, "CAM": int, "RAM": int, "LM": int, "LCM": int, "CM": int, "RCM": int, "RM": int, "LWB": int, "LDM": int, "CDM": int, "RDM": int, "RWB": int, "LB": int, "LCB": int, "CB": int, "RCB": int, "RB": int})
+
         connection = pyodbc.connect(
         "Driver={SQL Server};"
         "Server=" + server + ";"
@@ -142,8 +154,8 @@ class Load:
 
         cursor = connection.cursor()
 
-        for row in data.iterrows():
-            cursor.execute(  # Hier muss wohl die einzige Anpassung durchgeführt werden? Für jede Spalte ein eigenes "row[]" mit Spaltenname und gut is?
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+            cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Form_ID],[LS],[ST],[RS],[LW],[LF],[CF],[RF],[RW],[LAM],[CAM],[RAM],[LM],[LCM],[CM],[RCM],[RM],[LWB],[LDM],[CDM],[RDM],[RWB],[LB],[LCB],[CB],[RCB],[RB]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             row["Form_ID"],
@@ -174,12 +186,14 @@ class Load:
             row["RCB"],
             row["RB"]
             )
+            connection.commit()
 
-        connection.commit()
         cursor.close()
         connection.close()
 
-    def insert_fact_data(self, data, server, database, table_to):   
+    def insert_fact_data(self, data, server, database, table_to):
+        data = data.astype({"Stats_ID": str, "Crossing": int, "Finishing": int, "HeadingAccuracy": int, "ShortPassing": int, "Volleys": int, "Dribbling": int, "Curve": int, "FKAccuracy": int, "LongPassing": int, "BallControl": int, "Acceleration": int, "SprintSpeed": int, "Agility": int, "Reactions": int, "Balance": int, "ShotPower": int, "Jumping": int, "Stamina": int, "Strength": int, "LongShots": int, "Aggression": int, "Interceptions": int, "Positioning": int, "Vision": int, "Penalties": int, "Composure": int, "Marking": int, "StandingTackle": int, "SlidingTackle": int, "GKDiving": int, "GKHandling": int, "GKKicking": int, "GKPositioning": int, "GKReflexes": int, "Club_ID": str, "Release_Clause": int, "Player_ID": str, "Age": int, "Overall": int, "Potential": int, "Special": int, "International_Reputation": int, "Skill_Moves": int, "Height": int, "Weight": int, "Value": int, "Wage": int, "Weak_Foot": int, "Form_ID": str, "LS": int, "ST": int, "RS": int, "LW": int, "LF": int, "CF": int, "RF": int, "RW": int, "LAM": int, "CAM": int, "RAM": int, "LM": int, "LCM": int, "CM": int, "RCM": int, "RM": int, "LWB": int, "LDM": int, "CDM": int, "RDM": int, "RWB": int, "LB": int, "LCB": int, "CB": int, "RCB": int, "RB": int})
+
         connection = pyodbc.connect(
         "Driver={SQL Server};"
         "Server=" + server + ";"
@@ -188,8 +202,8 @@ class Load:
 
         cursor = connection.cursor()
 
-        for row in data.iterrows():
-            cursor.execute(  # Hier muss wohl die einzige Anpassung durchgeführt werden? Für jede Spalte ein eigenes "row[]" mit Spaltenname und gut is?
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+            cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Stats_ID],[Crossing],[Finishing],[HeadingAccuracy],[ShortPassing],[Volleys],[Dribbling],[Curve],[FKAccuracy],[LongPassing],[BallControl],[Acceleration],[SprintSpeed],[Agility],[Reactions],[Balance],[ShotPower],[Jumping],[Stamina],[Strength],[LongShots],[Aggression],[Interceptions],[Positioning],[Vision],[Penalties],[Composure],[Marking],[StandingTackle],[SlidingTackle],[GKDiving],[GKHandling],[GKKicking],[GKPositioning],[GKReflexes],[Club_ID],[Release_Clause],[Player_ID],[Age],[Overall],[Potential],[Special],[International_Reputation],[Skill_Moves],[Height],[Weight],[Value],[Wage],[Weak_Foot],[Form_ID],[LS],[ST],[RS],[LW],[LF],[CF],[RF],[RW],[LAM],[CAM],[RAM],[LM],[LCM],[CM],[RCM],[RM],[LWB],[LDM],[CDM],[RDM],[RWB],[LB],[LCB],[CB],[RCB],[RB]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
             row["Stats_ID"],
@@ -269,8 +283,8 @@ class Load:
             row["RCB"],
             row["RB"]
             )
+            connection.commit()
 
-        connection.commit()
         cursor.close()
         connection.close()
     
@@ -287,7 +301,7 @@ class Load:
             DROP TABLE IF EXISTS stats_dim
             CREATE TABLE stats_dim
             (
-            [Stats_ID] int
+            [Stats_ID] VARCHAR(50)
             ,[Crossing] int
             ,[Finishing] int
             ,[HeadingAccuracy] int
@@ -326,7 +340,7 @@ class Load:
             DROP TABLE IF EXISTS player_dim
             CREATE TABLE player_dim
             (
-            [Player_ID] int
+            [Player_ID] VARCHAR(50)
             ,[Age] int
             ,[Overall] int
             ,[Potential] int
@@ -345,12 +359,12 @@ class Load:
             ,[Weak_Foot] int
             ,[Work_Rate] VARCHAR(50)
             ,[Body_Type] VARCHAR(50)
-            ,[Real_FaceID] VARCHAR(50)
+            ,[Real_Face] VARCHAR(50)
             );
             DROP TABLE IF EXISTS form_dim
             CREATE TABLE form_dim
             (
-            [Form_ID] int
+            [Form_ID] VARCHAR(50)
             ,[LS] int
             ,[ST] int
             ,[RS] int
@@ -381,7 +395,7 @@ class Load:
             DROP TABLE IF EXISTS fifa_fact
             CREATE TABLE fifa_fact
             (
-            [Stats_ID] int
+            [Stats_ID] VARCHAR(50)
             ,[Crossing] int
             ,[Finishing] int
             ,[HeadingAccuracy] int
@@ -416,9 +430,9 @@ class Load:
             ,[GKKicking] int
             ,[GKPositioning] int
             ,[GKReflexes] int
-            ,[Club_ID] int
+            ,[Club_ID] VARCHAR(50)
             ,[Release_Clause] int
-            ,[Player_ID] int
+            ,[Player_ID] VARCHAR(50)
             ,[Age] int
             ,[Overall] int
             ,[Potential] int
@@ -430,7 +444,7 @@ class Load:
             ,[Value] int
             ,[Wage] int
             ,[Weak_Foot] int
-            ,[Form_ID] int
+            ,[Form_ID] VARCHAR(50)
             ,[LS] int
             ,[ST] int
             ,[RS] int
@@ -461,7 +475,7 @@ class Load:
             DROP TABLE IF EXISTS club_dim
             CREATE TABLE club_dim
             (
-            [Club_ID] int
+            [Club_ID] VARCHAR(50)
             ,[Club] VARCHAR(50)
             ,[Club_Logo] VARCHAR(50)
             ,[Position] VARCHAR(50)
@@ -471,7 +485,30 @@ class Load:
             ,[Contract_Valid_Until] VARCHAR(50)
             ,[Release_Clause] int
             )
-               ''')
+            ''')
+
+        connection.commit()
+        cursor.close()
+        connection.close()
+
+    def truncate_insert(self, server, database):
+        connection = pyodbc.connect(
+        "Driver={SQL Server};"
+        "Server=" + server + ";"
+        "Database=" + database + ";"
+        "Trusted_Connection=yes;")
+
+        cursor = connection.cursor()
+        
+        cursor.execute(
+            '''
+                DELETE FROM dbo.club_dim;
+                DELETE FROM dbo.player_dim;
+                DELETE FROM dbo.stats_dim;
+                DELETE FROM dbo.form_dim;
+                DELETE FROM dbo.fifa_fact
+            '''
+        )
 
         connection.commit()
         cursor.close()
