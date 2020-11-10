@@ -12,6 +12,7 @@ class Model:
         pass
 
     def train_models(self, X_train, Y_train, n_estimators, max_depth, learning_rate, random_state, n_jobs):
+        print("Train models started ################")
         gbr = GradientBoostingRegressor(
             n_estimators=n_estimators,
             max_depth=max_depth,
@@ -31,4 +32,6 @@ class Model:
         gbr_model = gbr.fit(X_train, Y_train)
         rfr_model = rfr.fit(X_train, Y_train)
         dtr_model = dtr.fit(X_train, Y_train)
+
+        print("Train models finished ################")
         return gbr_model, rfr_model, dtr_model

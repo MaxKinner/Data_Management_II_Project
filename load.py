@@ -27,7 +27,7 @@ class Load:
 
         cursor = connection.cursor()
 
-        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Club Dimension"):
             cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Club_ID],[Club],[Club_Logo],[Position],[Jersey_Number],[Joined],[Loaned_From],[Contract_Valid_Until],[Release_Clause]) VALUES (?,?,?,?,?,?,?,?,?)",
@@ -57,7 +57,7 @@ class Load:
 
         cursor = connection.cursor()
 
-        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Player Dimension"):
             cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Player_ID],[Age],[Overall],[Potential],[Special],[International_Reputation],[Skill_Moves],[Height],[Weight],[Name],[Photo],[Nationality],[Flag],[Value],[Wage],[Preferred_Foot],[Weak_Foot],[Work_Rate],[Body_Type],[Real_Face]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -98,7 +98,7 @@ class Load:
 
         cursor = connection.cursor()
 
-        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Stats Dimension"):
             cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Stats_ID],[Crossing],[Finishing],[HeadingAccuracy],[ShortPassing],[Volleys],[Dribbling],[Curve],[FKAccuracy],[LongPassing],[BallControl],[Acceleration],[SprintSpeed],[Agility],[Reactions],[Balance],[ShotPower],[Jumping],[Stamina],[Strength],[LongShots],[Aggression],[Interceptions],[Positioning],[Vision],[Penalties],[Composure],[Marking],[StandingTackle],[SlidingTackle],[GKDiving],[GKHandling],[GKKicking],[GKPositioning],[GKReflexes]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -154,7 +154,7 @@ class Load:
 
         cursor = connection.cursor()
 
-        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Form Dimension"):
             cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Form_ID],[LS],[ST],[RS],[LW],[LF],[CF],[RF],[RW],[LAM],[CAM],[RAM],[LM],[LCM],[CM],[RCM],[RM],[LWB],[LDM],[CDM],[RDM],[RWB],[LB],[LCB],[CB],[RCB],[RB]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -202,7 +202,7 @@ class Load:
 
         cursor = connection.cursor()
 
-        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Data"):
+        for index,row in tqdm(data.iterrows(), total=len(data.index), ascii=True, desc="Load Fact Table"):
             cursor.execute(
             "INSERT INTO dbo." + table_to +
             "([Stats_ID],[Crossing],[Finishing],[HeadingAccuracy],[ShortPassing],[Volleys],[Dribbling],[Curve],[FKAccuracy],[LongPassing],[BallControl],[Acceleration],[SprintSpeed],[Agility],[Reactions],[Balance],[ShotPower],[Jumping],[Stamina],[Strength],[LongShots],[Aggression],[Interceptions],[Positioning],[Vision],[Penalties],[Composure],[Marking],[StandingTackle],[SlidingTackle],[GKDiving],[GKHandling],[GKKicking],[GKPositioning],[GKReflexes],[Club_ID],[Release_Clause],[Player_ID],[Age],[Overall],[Potential],[Special],[International_Reputation],[Skill_Moves],[Height],[Weight],[Value],[Wage],[Weak_Foot],[Form_ID],[LS],[ST],[RS],[LW],[LF],[CF],[RF],[RW],[LAM],[CAM],[RAM],[LM],[LCM],[CM],[RCM],[RM],[LWB],[LDM],[CDM],[RDM],[RWB],[LB],[LCB],[CB],[RCB],[RB]) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",

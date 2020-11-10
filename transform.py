@@ -12,6 +12,7 @@ class Transform:
         pass
 
     def transform_data(self, df):
+        print("Transform data started ################")
         # CONSISTENCY - Uniqueness - Remove duplicates
         df.drop_duplicates(inplace=True)
 
@@ -309,4 +310,5 @@ class Transform:
         df["Value"] = df["Value"] * df["Value_Calc"]
         df["Value"] = df["Value"].round(decimals=0)
 
+        print("Transform data finished ################")
         return df

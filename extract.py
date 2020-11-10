@@ -28,7 +28,8 @@ class Extract:
         :type table: String
         :return: Returns the whole given table
         :rtype: Pandas Dataframe
-        """        
+        """
+        print("Query data started ################")
         connection = pyodbc.connect(
             "Driver={SQL Server};"
             "Server=" + server + ";"
@@ -38,4 +39,6 @@ class Extract:
         query = pd.read_sql_query("SELECT * FROM Fifa19.dbo." + table, connection)
 
         df = pd.DataFrame(query)
+        
+        print("Query data finished ################")
         return df

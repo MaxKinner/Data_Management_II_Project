@@ -6,6 +6,7 @@ class Evaluation:
         pass
 
     def evaluate_models(self, gbr_model, rfr_model, dtr_model, x_test, y_test, save_plots):
+        print("Evaluate models started ################")
         y_predicted_gbr = gbr_model.predict(x_test)
         y_predicted_rfr = rfr_model.predict(x_test)
         y_predicted_dtr = dtr_model.predict(x_test)
@@ -46,3 +47,7 @@ class Evaluation:
                     plt.savefig("Random_Forest.png", bbox_inches='tight', dpi=199)
                 else:
                     plt.savefig("Decision_Tree.png", bbox_inches='tight', dpi=199)
+
+            predict_counter += 1
+
+        print("Evaluate models finished ################")
