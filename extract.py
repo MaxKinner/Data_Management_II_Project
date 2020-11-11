@@ -29,7 +29,7 @@ class Extract:
         :return: Returns the whole given table
         :rtype: Pandas Dataframe
         """
-        print("Query data started ################")
+
         connection = pyodbc.connect(
             "Driver={SQL Server};"
             "Server=" + server + ";"
